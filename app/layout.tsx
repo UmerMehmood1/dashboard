@@ -1,14 +1,16 @@
 import { AppProps } from "next/app";
 import "./globals.css";
 import Sidebar from "./components/Sidebar";
-
-function MyApp({ Component, pageProps }: AppProps) {
+import { Toaster } from "@/components/ui/sonner";
+type LayoutProps = { children?: React.ReactNode };
+function MyApp({ children }: LayoutProps) {
   return (
     <html lang="en">
       <body>
         <div className="flex">
           <Sidebar />
-          <main className="flex-1 p-4">{}</main>
+          <main className="flex-1 p-4">{children}</main>
+          <Toaster richColors position="top-right" />
         </div>
       </body>
     </html>

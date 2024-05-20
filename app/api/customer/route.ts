@@ -1,5 +1,6 @@
 import { db } from "@/lib/firebase";
 import { sendResponse } from "@/utils/common";
+import { v4 as uuidv4 } from "uuid";
 import {
   collection,
   doc,
@@ -15,13 +16,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest) => {
   try {
-    const reqBody = await req.json();
-    if (reqBody) {
-      const { id } = reqBody;
-      const docRef = doc(db, "Customer", id);
-      const customer = await getDoc(docRef);
-      return sendResponse(200, { data: customer });
-    }
     const snapshot = await getDocs(collection(db, "Customer"));
     const customers = snapshot.docs.map((doc) => ({
       id: doc.id,
@@ -36,11 +30,17 @@ export const GET = async (req: NextRequest) => {
 export const POST = async (req: NextRequest) => {
   try {
     const reqBody = await req.json();
-    const { name, email, password } = reqBody;
+    console.log(reqBody);
+    const {
+      values: { name, email, password, address },
+    } = reqBody;
+    const id = uuidv4();
     const snapshot = addDoc(collection(db, "Customer"), {
+      id,
       name,
       email,
       password,
+      address,
     });
 
     return sendResponse(200, { message: "Customer has been created" });
