@@ -17,13 +17,6 @@ import { NextRequest, NextResponse } from "next/server";
 
 export const GET = async (req: NextRequest) => {
   try {
-    const reqBody = await req.json();
-    if (reqBody) {
-      const { id } = reqBody;
-      const docRef = doc(db, "Product", id);
-      const product = await getDoc(docRef);
-      return sendResponse(200, { data: product });
-    }
     const snapshot = await getDocs(collection(db, "Product"));
     const products = snapshot.docs.map((doc) => ({
       id: doc.id,
