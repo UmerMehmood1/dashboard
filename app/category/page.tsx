@@ -8,6 +8,7 @@ import CreateCategory from "@/components/category/create";
 
 const Categories = () => {
   const [categories, setCategories] = useState<Category[]>([]);
+  const [isLoading, setIsLoading] = React.useState(true);
   const [selectedCategory, setSelectedCategory] = useState<Category | null>(
     null
   );
@@ -21,6 +22,7 @@ const Categories = () => {
 
   useEffect(() => {
     fetchCategories();
+    setIsLoading(false);
   }, []);
 
   const deleteCategory = async (categoryId: number) => {
@@ -55,6 +57,7 @@ const Categories = () => {
           categories={categories}
           deleteCategory={deleteCategory}
           selectCategory={selectCategory}
+          isLoading={isLoading}
         />
       </div>
     </>

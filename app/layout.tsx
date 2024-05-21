@@ -1,6 +1,6 @@
 import { AppProps } from "next/app";
 import "./globals.css";
-import Sidebar from "./components/Sidebar";
+import Sidebar from "../components/Sidebar/Sidebar";
 import { Toaster } from "@/components/ui/sonner";
 type LayoutProps = { children?: React.ReactNode };
 function MyApp({ children }: LayoutProps) {

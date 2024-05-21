@@ -45,24 +45,24 @@ import {
 } from "@/components/ui/select";
 import { DataTableColumnHeader } from "@/components/table/data-table-column-header";
 import * as z from "zod";
-import { Category } from "@/types/category";
+import { Product } from "@/types/productType";
 
 export const DeleteProductSchema = z.object({
-  categoryId: z.number().int().optional(),
+  productId: z.number().int().optional(),
 });
 
-export function CategoryTable({
-  categories,
-  deleteCategory,
-  selectCategory,
+export function ProductTable({
+  products,
+  deleteProduct,
+  selectProduct,
   isLoading,
 }: {
-  categories: Category[];
-  deleteCategory: (categoryId: number) => void;
-  selectCategory: (category: Category) => void;
+  products: Product[];
+  deleteProduct: (productId: number) => void;
+  selectProduct: (product: Product) => void;
   isLoading: boolean;
 }) {
-  const columns: ColumnDef<Category>[] = React.useMemo(
+  const columns: ColumnDef<Product>[] = React.useMemo(
     () => [
       {
         accessorKey: "id",
@@ -74,15 +74,30 @@ export function CategoryTable({
         enableHiding: false,
       },
       {
-        accessorKey: "title",
+        accessorKey: "name",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Title" />
+          <DataTableColumnHeader column={column} title="Name" />
         ),
         cell: ({ row }) => {
           return (
             <div className="flex space-x-2">
               <span className="max-w-[500px] truncate font-medium">
-                {row.getValue("title")}
+                {row.getValue("name")}
+              </span>
+            </div>
+          );
+        },
+      },
+      {
+        accessorKey: "category",
+        header: ({ column }) => (
+          <DataTableColumnHeader column={column} title="Category" />
+        ),
+        cell: ({ row }) => {
+          return (
+            <div className="flex space-x-2">
+              <span className="max-w-[500px] truncate font-medium">
+                {row.getValue("category")}
               </span>
             </div>
           );
@@ -104,15 +119,45 @@ export function CategoryTable({
         },
       },
       {
-        accessorKey: "imageUrl",
+        accessorKey: "price",
         header: ({ column }) => (
-          <DataTableColumnHeader column={column} title="Images" />
+          <DataTableColumnHeader column={column} title="Prices" />
         ),
         cell: ({ row }) => {
           return (
             <div className="flex space-x-2">
               <span className="max-w-[500px] truncate font-medium">
-                {row.getValue("imageUrl")}
+                {row.getValue("price")}
+              </span>
+            </div>
+          );
+        },
+      },
+      {
+        accessorKey: "stock",
+        header: ({ column }) => (
+          <DataTableColumnHeader column={column} title="Stock" />
+        ),
+        cell: ({ row }) => {
+          return (
+            <div className="flex space-x-2">
+              <span className="max-w-[500px] truncate font-medium">
+                {row.getValue("stock")}
+              </span>
+            </div>
+          );
+        },
+      },
+      {
+        accessorKey: "weight",
+        header: ({ column }) => (
+          <DataTableColumnHeader column={column} title="weight" />
+        ),
+        cell: ({ row }) => {
+          return (
+            <div className="flex space-x-2">
+              <span className="max-w-[500px] truncate font-medium">
+                {row.getValue("weight")}
               </span>
             </div>
           );
@@ -134,14 +179,14 @@ export function CategoryTable({
             <DropdownMenuContent align="end" className="w-[160px]">
               <DropdownMenuItem
                 onClick={() => {
-                  selectCategory(row.original);
+                  selectProduct(row.original);
                 }}
               >
                 Edit
               </DropdownMenuItem>
               <DropdownMenuItem
                 onClick={() => {
-                  deleteCategory(row.getValue("id"));
+                  deleteProduct(row.getValue("id"));
                 }}
                 className="text-red-500"
               >
@@ -156,7 +201,7 @@ export function CategoryTable({
   );
 
   const table = useReactTable({
-    data: categories,
+    data: products,
     columns,
     autoResetPageIndex: false,
     getCoreRowModel: getCoreRowModel(),
