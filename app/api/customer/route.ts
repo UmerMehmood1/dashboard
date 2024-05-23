@@ -1,6 +1,7 @@
 import { db } from "@/lib/firebase";
 import { sendResponse } from "@/utils/common";
 import { v4 as uuidv4 } from "uuid";
+import {CustomerType} from "@/types/customerType"
 import {
   collection,
   doc,
@@ -13,6 +14,14 @@ import {
   getDoc,
 } from "firebase/firestore";
 import { NextRequest, NextResponse } from "next/server";
+export const fetchCustomers = async (): Promise<CustomerType[]> => {
+  const response = await fetch("/api/customers");
+  if (!response.ok) {
+    throw new Error("Failed to fetch customers");
+  }
+  const data = await response.json();
+  return data.data as CustomerType[];
+};
 
 export const GET = async (req: NextRequest) => {
   try {
